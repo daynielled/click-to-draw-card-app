@@ -1,10 +1,11 @@
-
+import Deck from './Deck';
 import './App.css';
 
 function App() {
   return (
     <div className="App">
-     <CreateNewDeck />
+      <h1>Card App</h1>
+     <Deck />
     </div>
   );
 }

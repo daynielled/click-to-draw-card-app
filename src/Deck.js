@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import CardDeck from "./CardDeck";
 import axios from 'axios';
 
 const Deck = () => {
@@ -30,3 +31,5 @@ const Deck = () => {
         </div>
     )
 };
+
+export default Deck;
