@@ -3,6 +3,7 @@ import axios from 'axios';
 
 const CardDeck = ({ deckId }) => {
     const [card, setCard] = useState(null);
+    const [isShuffling, setIsShuffling] = useState(false);
 
     const drawCard = async () => {
         try {
@@ -17,17 +18,36 @@ const CardDeck = ({ deckId }) => {
         }
     };
 
-    return (
-        <div>
-          <button onClick={drawCard}>Draw a Card</button>
-          {card && (
-            <div>
-              <img src={card.image} alt={card.code} />
-              <p>{`Card: ${card.value} of ${card.suit}`}</p>
-            </div>
-          )}
-        </div>
-      );
+    const shuffleDeck = async () => {
+        setIsShuffling(true);
+        setCard(null); //Remove the displayed card when shuffling
+
+        try {
+            const res = await axios.get(`https://deckofcardsapi.com/api/deck/${deckId}/shuffle/`);
+            if (res.data.success) {
+                alert('Deck shuffled successfully!')
+            } else {
+                alert('Error shuffling the deck!')
+            }
+        } catch (error) {
+            console.error('Error shuffling the deck:', error)
+        } finally {
+            setIsShuffling(false)
+        }
     };
 
-            export default CardDeck;
+    return (
+        <div>
+            <button onClick={drawCard}>Draw a Card</button>
+            <button onClick={shuffleDeck} disabled={isShuffling}>Shuffle Deck</button>
+            {card && (
+                <div>
+                    <img src={card.image} alt={card.code} />
+                    <p>{`Card: ${card.value} of ${card.suit}`}</p>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default CardDeck;
